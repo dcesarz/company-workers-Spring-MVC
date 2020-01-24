@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring MVC demo app</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="jumbotron text-center">
+    <h1 th:href="@{http://localhost:8080}">Company managment</h1>
+
+    <h2>We have <span th:text="${companies.size()}"></span> companies in our database</h2>
+</div>
+<div th:switch="${companies.size()}">
+    <h2 th:case="0">No companies</h2>
+    <div th:case="*">
+        <div class="container">
+            <h2>Companies</h2>
+        </div>
+        <table class="table table-dark table-striped">
+            <thead>
+            <tr>
+                <th>Company Name</th>
+                <th>CEO First Name</th>
+                <th>CEO Last Name</th>
+                <th>CEO Id</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="company : ${companies}">
+                <td th:text="${company.getCompanyName()}"></td>
+                <section th:switch="${company.getCeo()==null}">
+                    <section th:case="true">
+                        <td>Null</td>
+                        <td>Null</td>
+                        <td>Null</td>
+                    </section>
+                    <section th:case="false">
+                        <td th:text="${company.getCeo().getFirstName()}"></td>
+                        <td th:text="${company.getCeo().getLastName()}"></td>
+                        <td th:text="${company.getCeo().getId()}"></td>
+                    </section>
+                    <td><a th:href="@{/company/edit/{name}(name=${company.uniq})}">Edit</a></td>
+                    <td><a th:href="@{/company/delete/{name}(name=${company.companyName})}">Delete</a></td>
+                    <td><a th:href="@{/company/json/{name}(name=${company.companyName})}">JSON</a></td>
+                </section>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <p><a href="/company/new" class="btn btn-outline-primary">Add new company</a></p>
+        <p><a href="/company/csv" class="btn btn-outline-primary">Export company beans as csv file.</a></p>
+    </div>
+</div>
+</body>

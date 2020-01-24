@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring MVC demo app</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="jumbotron text-center">
+    <h1 th:href="@{http://localhost:8080}">Company management</h1>
+
+    <h2>We have <span th:text="${persons.size()}"></span> persons in our database</h2>
+</div>
+<div th:switch="${persons.size()}">
+    <h2 th:case="0">No persons</h2>
+    <div th:case="*">
+        <div class="container">
+            <h2>Persons</h2>
+        </div>
+        <table class="table table-dark table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Date of employment</th>
+                <th>Company Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="person : ${persons}">
+                <td th:text="${person.getId()}"></td>
+                <td th:text="${person.getFirstName()}"></td>
+                <td th:text="${person.getLastName()}"></td>
+                <td th:text="${person.getEmail()}"></td>
+                <td th:text="${person.getDoe()}"></td>
+                <section th:switch="${person.getComp() == null}">
+                    <td th:text="${person.getComp().getCompanyName()}" th:case="false"></td>
+                    <td th:case="true">null</td>
+                </section>
+                <td><a th:href="@{/person/edit/{id}(id=${person.id})}">Edit</a></td>
+                <td><a th:href="@{/person/delete/{id}(id=${person.id})}">Delete</a></td>
+                <td><a th:href="@{/person/json/{id}(id=${person.id})}">JSON</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <p><a href="/person/new" class="btn btn-outline-primary">Add new person</a></p>
+        <p><a href="/person/csv" class="btn btn-outline-primary">Export person beans as csv file.</a></p>
+    </div>
+</div>
+</body>

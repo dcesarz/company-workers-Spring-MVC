@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Worker graph</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    <script>
+        window.onload = function () {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "/getgraph",
+                data: {"data": "check"},
+                success: function (data) {
+                    var options = {
+                        animationEnabled: true,
+                        title: {
+                            text: data.name
+                        },
+                        legend: {
+                            fontSize: 12,
+                            horizontalAlign: "right",
+                            verticalAlign: "center"
+                        },
+                        data: [{
+                            type: "column",
+                            showInLegend: true,
+                            legendText: "{label} - {y}",
+                            indexLabel: "{}",
+                            dataPoints: data.workers
+                        }]
+                    };
+
+                    $("#chartContainer").CanvasJSChart(options);
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+<div id="user-app-details" class="flex radius-and-padding">
+    <div id="chartContainer" style="height: 100%; width: 100%;"></div>
+</div>
+</div>
+</div>
+</body>
+
+</html>

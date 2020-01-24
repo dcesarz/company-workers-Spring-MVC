@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search a person</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h1 class="text-center jumbotron">Wprowadź ID do wyszukania.</h1>
+<form action="#" th:action="@{/searchperson/result}" th:object="${person}" method="post">
+    <div class="d-flex justify-content-center">
+        <label>ID: </label>
+        <input type="text" th:field="*{id}" id="id" name="id" placeholder="Person id"/>
+        <br>
+        <input type="submit" class="btn btn-info" value="Submit Button">
+    </div>
+</form>
+
+</body>
+</html>
